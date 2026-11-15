@@ -37,30 +37,25 @@ dialog.addEventListener('click', event => {
   if (outside) dialog.close();
 });
 
-// 3. Inquiry form --------------------------------------------------------
-// For now this only downloads a text draft; nothing is sent anywhere.
+// 3. Inquiry form ---------------------------------------------------------
+// Opens the visitor's email app with the message addressed to Chris and Alex.
+// (No server involved; nothing is stored on the website.)
+const INQUIRY_TO = 'chris@clarkdevco.com,alex@clarkdevco.com';
+
 document.querySelector('#inquiry').addEventListener('submit', event => {
   event.preventDefault();
   const data = new FormData(event.target);
-  const text =
-    'CLARK DEVELOPMENT COMPANY — INQUIRY DRAFT\n\n' +
+  const subject = `Website inquiry: ${data.get('topic')} (${data.get('name')})`;
+  const body =
     `Name: ${data.get('name')}\n` +
     `Email: ${data.get('email')}\n` +
     `Topic: ${data.get('topic')}\n\n` +
-    `${data.get('details')}\n\n` +
-    'This is a draft. It has not been sent.\n';
+    `${data.get('details')}\n`;
 
-  const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'Clark-Dev-Co-Inquiry.txt';
-  document.body.append(link);
-  link.click();
-  link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  window.location.href = `mailto:${INQUIRY_TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
   document.querySelector('#form-status').textContent =
-    'Your draft is ready. Share the downloaded file directly with Chris or Alex.';
+    'Your email app should open with your message ready to send. If it doesn’t, email chris@clarkdevco.com or alex@clarkdevco.com directly.';
 });
 
 // 4. Footer year ---------------------------------------------------------
