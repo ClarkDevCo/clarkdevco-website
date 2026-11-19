@@ -1,0 +1,15 @@
+{
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/slc",
+      "destination": "/strip-centers/",
+      "permanent": true
+    },
+    {
+      "source": "/northpark",
+      "destination": "/san-diego-infill/",
+      "permanent": true
+    }
+  ]
+}
